@@ -1,0 +1,35 @@
+.jumbotron {
+	text-align: center;
+	color: red;
+	opacity: 0.6;
+	background:grey;
+}
+
+body {
+	background-image: url(http://www.diyphotography.net/wordpress/wp-content/uploads/2014/03/adam-elmakias-16.jpg);
+	background-size: cover;
+	background-size: 100% 100%;
+}
+
+.btn {
+	margin-bottom:30px;
+}
+
+h2 {
+	color: yellow;
+}
+
+
+.form-control {
+	width: 300px;
+}
+
+#add {
+	color: yellow;
+	font-size: 18px;
+}
+
+#head {
+	font-size: 60px;
+	font-weight: bold;
+}
