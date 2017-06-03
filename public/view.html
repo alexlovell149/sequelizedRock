@@ -11,7 +11,7 @@
 	<!-- jQuery cdn -->
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<!-- css file -->
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 	
 	</head>
 			<!-- <div class="wrap">
@@ -33,11 +33,11 @@
         <div class="col-md-4 col-md-offset-1">
         <h2>Not Hall of Fame</h2>
         <ul class="list-group">
-          {{#each bands}}
-              {{#unless this.hall_of_fame}}
+      <!--     {{#each bands}}
+              {{#unless this.hall_of_fame}} -->
               <li class="list-group-item">
                   <div class="input-group">
-                      <p class="lead"> {{this.band_name}} </p>
+                      <p class="lead"> <!-- {{this.band_name}}  --></p>
                       <span class="input-group-btn">
                         <form action="rock/update/{{this.id}}?_method=PUT" method="POST">
                             <input type="hidden" name="hall_of_fame" value="true">
@@ -48,8 +48,8 @@
                       </span>
                   </div>
               </li>
-              {{/unless}}
-          {{/each}}
+              <!-- {{/unless}}
+          {{/each}} -->
         </ul>
         </div>
 
@@ -58,13 +58,13 @@
     <h2>Hall of Fame</h2>
       <div class="panel panel-default">
         <ul class="list-group">
-        {{#each bands}}
-          {{#if this.hall_of_fame}}
+        <!-- {{#each bands}}
+          {{#if this.hall_of_fame}} -->
           <li class="list-group-item">
-            <p class="lead">{{this.band_name}} </p>
+            <p class="lead"><!-- {{this.band_name}}  --></p>
           </li>
-          {{/if}}
-        {{/each}}
+         <!--  {{/if}}
+        {{/each}} -->
         </ul>
       </div>
     </div>
