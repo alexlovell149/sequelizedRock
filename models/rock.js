@@ -5,7 +5,6 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false
 		}
-		createdAt: DataTypes.DATE
 	});
 	return Rock;
 }
