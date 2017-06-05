@@ -7,7 +7,7 @@ $(document).ready(function() {
   $(document).on("click", "button.delete", deleteBand);
   $(document).on("click", ".band-item", editBand);
   $(document).on("keyup", ".band-item", finishEdit);
-  $(document).on("blur", ".band-item", cancelEdit);
+  // $(document).on("blur", ".band-item", cancelEdit);
   $(document).on("submit", "#band-form", insertBand);
 
   // Initial bands array
@@ -28,7 +28,7 @@ $(document).ready(function() {
 
   // This function grabs bands from the database and updates the view
   function getBands() {
-    $.get("/api/rock", function(data) {
+    $.get("/", function(data) {
       bands = data;
       initializeRows();
     });
@@ -39,17 +39,26 @@ $(document).ready(function() {
     var id = $(this).data("id");
     $.ajax({
       method: "DELETE",
-      url: "/api/rock/" + id
+      url: "/index/delete/" + id
     }).done(function() {
       getBands();
     });
+  }
+
+  function toggleComplete() {
+    var band = $(this)
+      .parent()
+      .data("band");
+
+    band.complete = !band.complete;
+    updateBand(band);
   }
 
   // This function handles showing the input box for a user to edit a band
   function editBand() {
     var currentBand = $(this).data("band");
     $(this).children().hide();
-    $(this).children("input.edit").val(currentBand.text);
+    $(this).children("input.edit").val(currentBand.band_name);
     $(this).children("input.edit").show();
     $(this).children("input.edit").focus();
   }
@@ -69,11 +78,12 @@ $(document).ready(function() {
   }
 
   // This function updates a band in our database
-  function updateBand(todo) {
+  function updateBand(band) {
+    var id = $(this).data("id");
     $.ajax({
       method: "PUT",
-      url: "/api/rock",
-      data: todo
+      url: "/index/update" + id,
+      data: band
     }).done(function() {
       getBands();
     });
@@ -81,36 +91,36 @@ $(document).ready(function() {
 
   // This function is called whenever a todo item is in edit mode and loses focus
   // This cancels any edits being made
-  function cancelEdit() {
-    var currentBand = $(this).data("todo");
-    $(this).children().hide();
-    $(this).children("input.edit").val(currentBand.text);
-    $(this).children("span").show();
-    $(this).children("button").show();
-  }
+  // function cancelEdit() {
+  //   var currentBand = $(this).data("band");
+  //   $(this).children().hide();
+  //   $(this).children("input.edit").val(currentBand.text);
+  //   $(this).children("span").show();
+  //   $(this).children("button").show();
+  // }
 
   // This function constructs a todo-item row
   function createNewRow(create) {
-    // var newInputRow = $("<li>");
-    // newInputRow.addClass("list-group-item todo-item");
-    // var newTodoSpan = $("<span>");
-    newTodoSpan.text(todo.text);
-    newInputRow.append(newTodoSpan);
-    var newTodoInput = $("<input>");
-    newTodoInput.attr("type", "text");
-    newTodoInput.addClass("edit");
-    newTodoInput.css("display", "none");
-    newInputRow.append(newTodoInput);
+    var newInputRow = $("<li>");
+    newInputRow.addClass("list-group-item band-item");
+    var newBandSpan = $("<span>");
+    newBandSpan.text(bands.text);
+    newInputRow.append(newBandSpan);
+    var newBandInput = $("<input>");
+    newBandInput.attr("type", "text");
+    newBandInput.addClass("edit");
+    newBandInput.css("display", "none");
+    newInputRow.append(newBandInput);
     var newDeleteBtn = $("<button>");
     newDeleteBtn.addClass("delete btn btn-default");
     newDeleteBtn.text("x");
     newDeleteBtn.data("id", create.id);
     newInputRow.append(newDeleteBtn);
-    newInputRow.data("todo", create);
+    newInputRow.data("bands", create);
     return newInputRow;
   }
 
-  // This function inserts a new todo into our database and then updates the view
+  // This function inserts a new band into our database and then updates the view
   function insertBand(event) {
     event.preventDefault();
     // if (!newItemInput.val().trim()) {
@@ -121,7 +131,7 @@ $(document).ready(function() {
       hall_of_fame: false
     };
 
-    $.post("/api/rock", band, function() {
+    $.post("/index/create", band, function() {
       getBands();
     });
     newBandInput.val("");

@@ -1,11 +1,24 @@
 module.exports = function(sequelize, DataTypes) {
-	var Rock = sequelize.define("bandslist", {
-		band_name: DataTypes.STRING,
-		hall_of_fame: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: false
-		}
-	});
-	return Rock;
-}
+    var Rock = sequelize.define("Rock", {
+            band_name: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            hall_of_fame: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false
+            }
+            
+        },
 
+        {
+            classMethods: {
+                associate: function(models) {
+                    Rock.hasOne(models.Genre, {
+                        foreignKey: "band_id"
+                    });
+                }
+            }
+        });
+    return Rock;
+}
